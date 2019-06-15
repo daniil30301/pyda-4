@@ -1,0 +1,14 @@
+from datetime import datetime
+from datetime import timedelta
+
+def date():
+    
+    start_date = datetime.today() - timedelta(days = 1)
+    one_day = datetime.today() - timedelta(start_date.day)
+    
+    while start_date >= one_day:
+        print(one_day.strftime('%Y.%m.%d'))
+        
+        one_day += timedelta(days=1)
+        
+date()
