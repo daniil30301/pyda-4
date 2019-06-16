@@ -1,0 +1,14 @@
+import numpy as np
+from numpy import linalg
+
+a = np.array([[4,2,1], [1,3,-12], [5,4,3]])
+b = np.array([4,0,0])
+
+"""
+Перенести из второго уравнения 12 в левую сторону (получим x + 3 -12 = 0)
+Перенести из третьего уравнения -3 в левую сторону (получим 5y + 4z +3 = 0)
+"""
+
+linalg.solve(a,b)
+
+np.allclose( np.dot(a, linalg.solve(a, b)), b )
