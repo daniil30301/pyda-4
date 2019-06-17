@@ -2,4 +2,9 @@ import pandas as pd
 
 ratings = pd.read_csv('C:/Users/karpo/Desktop/Презентации аналитика/python/ml-latest-small/ml-latest-small/ratings.csv')
 
-ratings.groupby('movieId').count().sort_values('rating', ascending=False).head(1)
+movie = pd.read_csv('C:/Users/karpo/Desktop/Презентации аналитика/python/ml-latest-small/ml-latest-small/movies.csv')
+
+joined = ratings.merge(movie, on='movieId', how='left')
+
+joined_rating = joined[(joined['rating']==5.0)]
+joined_rating.groupby('movieId').count().sort_values('userId', ascending=False).head()
