@@ -1,0 +1,12 @@
+import pandas as pd
+
+ratings = pd.read_csv('C:/Users/karpo/Desktop/Презентации аналитика/python/ml-latest-small/ml-latest-small/ratings.csv')
+movie = pd.read_csv('C:/Users/karpo/Desktop/Презентации аналитика/python/ml-latest-small/ml-latest-small/movies.csv')
+joined = ratings.merge(movie, on='movieId', how='left')
+
+lifetime = joined.groupby('userId').agg([min, max])
+
+joined['deff'] = (lifetime['timestamp']['max'] - lifetime['timestamp']['min']) / 86400
+
+clik = joined.groupby('userId').count()
+clik100 = clik[(clik['rating'] >=100)]
