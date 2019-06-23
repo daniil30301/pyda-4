@@ -1,0 +1,24 @@
+import pandas as pd
+keywords = pd.read_csv('C:/Users/danii/OneDrive/Презентации аналитика/python/Python_6_pandas.ipynb/keywords.csv')
+
+geo_data = {
+
+    'Центр': ['москва', 'тула', 'ярославль'],
+
+    'Северо-Запад': ['петербург', 'псков', 'мурманск'],
+
+    'Дальний Восток': ['владивосток', 'сахалин', 'хабаровск']
+
+}
+
+def region (row):
+        if row['keyword'] in geo_data['Центр']:
+            return 'Центр'
+        if row['keyword'] in geo_data['Северо-Запад']:
+            return 'Северо-Запад'
+        if row['keyword'] in geo_data['Дальний Восток']:
+            return 'Дальний Восток'
+        else:
+            return 'undefined'
+            
+keywords['regions'] = keywords.apply(region, axis = 1)
