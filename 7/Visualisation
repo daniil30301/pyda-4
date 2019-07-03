@@ -1,0 +1,62 @@
+from pylab import rcParams
+rcParams['figure.figsize'] = 28,12
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+players = pd.read_csv('C:/Users/danii/OneDrive/Презентации аналитика/python/nhl-game-data/player_info.csv')
+teams = pd.read_csv('C:/Users/danii/OneDrive/Презентации аналитика/python/nhl-game-data/team_info.csv')
+game = pd.read_csv('C:/Users/danii/OneDrive/Презентации аналитика/python/nhl-game-data/game.csv')
+player_stats = pd.read_csv('C:/Users/danii/OneDrive/Презентации аналитика/python/nhl-game-data/game_skater_stats.csv')
+
+player_nationality = players.groupby(['nationality']).count()
+player_visualisation = player_nationality.player_id.sort_values(ascending = False)
+player_visualisation.plot(kind = 'bar')
+
+'''
+Данный график показывает количество игроков НХЛ по нациолальности.
+Наибольшее количество игроков с паспортом Канады. С гражданством Финляндии, России, Чехии преблизительно одинаковое 
+(примерно по 100).
+
+'''
+
+team_born = teams.sort_values(['franchiseId'])
+plt.scatter(team_born['teamName'], team_born['franchiseId'])
+plt.ylabel('Number')
+
+'''
+Данный график показывает очередность создания команд в НХЛ.
+
+'''
+
+
+
+players_position = players.groupby('primaryPosition').count()
+players_position['player_id'].plot(kind = 'area')
+
+'''
+На данном графике показано каличтво играков НХЛ в каждом амплуа.
+'''
+
+player_stats_groupby = player_stats.groupby('player_id').sum()
+player_filter = player_stats_groupby.filter(items = ['shots', 'goals']).sort_values('shots', ascending = False).head(10)
+
+sns.heatmap(player_filter)
+
+'''
+График отображает количество забитых голов игроками НХЛ входящих в ТОП 10 по количеству нанесенных бросков.
+'''
+
+stats_season = game.groupby('season').sum()
+stats_season_goals = stats_season.filter(items = ['season','home_goals','away_goals'])
+
+stats_goals_plot = sns.pairplot(stats_season_goals)
+
+'''
+Данный график показывает распределение каличества шайб, забитых в каждом сезоне командами дома/в гостях.
+На графике четко видны сезоны с аномальной статистикой по забитым шайбам.
+Показания с самой низкой результативностью можно объяснить сокращенным сезоном.
+Также мы видим, что все сезоны, кроме трех, находятся очень близко по результативности.
+Заметное увеличение результативности произошло в последние два сезона
+'''
