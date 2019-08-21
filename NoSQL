@@ -1,0 +1,16 @@
+use database market
+
+db.product.insertOne({Name: 'Iphone XR' , Category: 'Smartphone', Price: 76000, Quantity: 9})
+db.product.insertOne({Name: 'Sumsumg 10' , Category: 'Smartphone', Price: 66000, Quantity: 13})
+db.product.insertOne({Name: 'Apple Watch' , Category: 'SmartWatch', Price: 36000, Quantity: 5})
+db.product.insertOne({Name: 'Galaxy Watch' , Category: 'SmartWatch', Price: 27000, Quantity: 7})
+
+db.product.aggregate([{$match: {'Category': 'Smartphone'}}, {$group : {_id : "Smartphone", total_salary: 
+...{$sum : {$multiply: ['$Price','$Quantity']}}}}])
+db.product.aggregate([{$match: {'Category': 'SmartWatch'}}, {$group : {_id : "Smartphone", total_salary: 
+...{$sum : {$multiply: ['$Price','$Quantity']}}}}])
+
+db.product.updateMany({Category: 'Smartphone'}, {$inc: {Quantity: -1}})
+db.product.updateMany({Category: 'SmartWatch'}, {$inc: {Quantity: -1}})
+
+db.product.find().sort({Price: -1}).limit(2)
